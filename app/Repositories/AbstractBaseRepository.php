@@ -16,6 +16,10 @@ class AbstractBaseRepository {
         return $this->model;
     }
 
+    public function all() {
+        return $this->model->get();
+    }
+
     public function find($field, $value) {
         return $this->model->where($field, $value)->first();
     }

@@ -100,4 +100,23 @@ class ItemTest extends TestCase
             'item'
         ]);
     }
+
+    /**
+     * List item unit test
+     *
+     * @return void
+     */
+    public function testListItem()
+    {
+        //Create sample item to list
+        $item = factory(\App\Models\Item::class, 10)->create();
+
+        //Check 200 response
+        $response = $this->get("item/list");
+        $response->assertResponseStatus(200);
+        $response->seeJsonStructure([
+            'message',
+            'items'
+        ]);
+    }
 }

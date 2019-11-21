@@ -89,4 +89,19 @@ class ItemController extends Controller
             "item" => $view->item
         ], $view->status); 
     }
+
+    /**
+     * List items method.
+     *
+     * @return void
+     */
+    public function list()
+    {
+        $list = $this->itemService->listItem();
+
+        return response()->json([
+            "message" => $list->message,
+            "items" => $list->items
+        ], $list->status); 
+    }
 }
