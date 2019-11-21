@@ -14,7 +14,7 @@ class CreateItem extends AbstractItem
 
     protected $request;
 
-    protected $repository
+    protected $repository;
 
     public function __construct(
         Request $request,
@@ -30,30 +30,24 @@ class CreateItem extends AbstractItem
     public function handle(): AbstractItem
     {
 
-        dd('hahahah');
+        $data = [
+            'uuid' => Uuid::uuid4()->toString(),
+            'name' => $this->request->post('name'),
+            'description' => $this->request->post('description')
+        ];
 
-        // $contactId = $this->request->post('contact_id');
-        // $items = json_decode($this->request->post('items'));
+        //Save Item
+        $saveItem = $this->repository->create($data);
 
-        // $data = [
-        //     'customer_id' => $contactId,
-        //     'date' => Carbon::now()->format('Y-m-d'),
-        //     'line_items' => $items
-        // ];
+        if( !$saveItem ){
+            $this->response = $this->makeResponse(400, 'save.400');
+            $this->response->item = null;
+        }
+        else{
+            $this->response = $this->makeResponse(200, 'save.200');
+            $this->response->item = $saveItem;
+        }
 
-        // //Save Item
-        // $saveItem = $this->addItem->addItem(json_encode($data));
-
-        // if( !$saveItem ){
-        //     $this->response = $this->makeResponse(400, 'save.400');
-        //     $this->response->order = null;
-        //     return $this;
-        // }
-
-
-        // $this->response = $this->makeResponse(200, 'save.200');
-        // $this->response->order = $saveItem;
-
-        // return $this;
+        return $this;
     }
 }

@@ -40,9 +40,7 @@ class ItemController extends Controller
             'description' => 'required'
         ]);
 
-        dd('asdasd');
-
-        //$save = $this->itemService->createItem();
+        $save = $this->itemService->createItem();
 
         return response()->json([
             "message" => $save->message,
