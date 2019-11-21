@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\AbstractBaseModel;
 use Carbon\Carbon;
 
-class Item extends Model {
+class Item extends AbstractBaseModel {
 
     use SoftDeletes;
 
