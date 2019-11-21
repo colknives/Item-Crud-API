@@ -74,4 +74,19 @@ class ItemController extends Controller
             "message" => $delete->message
         ], $delete->status); 
     }
+
+    /**
+     * View item method.
+     *
+     * @return void
+     */
+    public function view($uuid)
+    {
+        $view = $this->itemService->viewItem($uuid);
+
+        return response()->json([
+            "message" => $view->message,
+            "item" => $view->item
+        ], $view->status); 
+    }
 }

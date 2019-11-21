@@ -23,6 +23,7 @@ class Item extends AbstractBaseModel {
     protected $hidden = [
         'id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 }

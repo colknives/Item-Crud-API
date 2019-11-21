@@ -9,5 +9,7 @@ interface ItemInterface {
 	public function markComplete($uuid);
 
 	public function deleteItem($uuid);
+
+	public function viewItem($uuid);
 	
 }

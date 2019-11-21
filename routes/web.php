@@ -25,4 +25,7 @@ $router->group(["prefix" => "item"], function() use ($router){
 
 	//Delete item route
 	$router->delete('delete/{id}', ["as" => "item.delete", "uses" => "ItemController@delete"]);
+
+	//View item route
+	$router->get('view/{id}', ["as" => "item.view", "uses" => "ItemController@view"]);
 });

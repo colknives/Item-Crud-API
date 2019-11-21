@@ -41,7 +41,7 @@ class ItemTest extends TestCase
      */
     public function testMarkItemComplete()
     {
-        //Create sample item to save
+        //Create sample item to mark as complete
         $item = factory(\App\Models\Item::class)->create();
 
         //Check 404 response
@@ -63,7 +63,7 @@ class ItemTest extends TestCase
      */
     public function testDeleteItem()
     {
-        //Create sample item to save
+        //Create sample item to delete
         $item = factory(\App\Models\Item::class)->create();
 
         //Check 404 response
@@ -75,6 +75,29 @@ class ItemTest extends TestCase
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
             'message'
+        ]);
+    }
+
+    /**
+     * View item unit test
+     *
+     * @return void
+     */
+    public function testViewItem()
+    {
+        //Create sample item to view
+        $item = factory(\App\Models\Item::class)->create();
+
+        //Check 404 response
+        $response = $this->get("item/view/1");
+        $response->assertResponseStatus(404);
+
+        //Check 200 response
+        $response = $this->get("item/view/{$item->uuid}");
+        $response->assertResponseStatus(200);
+        $response->seeJsonStructure([
+            'message',
+            'item'
         ]);
     }
 }
