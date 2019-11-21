@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is a simple API where you can manage items which uses Lumen, a laravel framework for microservices and API
+This project is a simple API where you can manage to do list items which uses Lumen, a laravel framework for microservices and API
 
 ## Server Requirements
 
