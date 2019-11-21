@@ -8,14 +8,14 @@ use Ramsey\Uuid\Uuid;
 use App\Services\Item\AbstractItem;
 use App\Repositories\ItemRepository as Repository;
 
-class MarkComplete extends AbstractItem
+class DeleteItem extends AbstractItem
 {
     protected $uuid;
 
     protected $repository;
 
     /**
-     * Mark item as complete construct method
+     * Delete item construct method
      *
      * @param $uuid
      * @param Repository $repository
@@ -29,7 +29,7 @@ class MarkComplete extends AbstractItem
     }
 
     /**
-     * Mark item as complete handle method
+     * Delete item handle method
      *
      * @return AbstractItem
      */
@@ -40,21 +40,19 @@ class MarkComplete extends AbstractItem
 
         //If no item found, return 404 status
         if( !$item ){
-            $this->response = $this->makeResponse(404, 'mark.404');
+            $this->response = $this->makeResponse(404, 'delete.404');
             return $this;
         }
 
-        $data = ['is_completed' => true];
+        //Delete Item
+        $deleteItem = $this->repository->delete($item);
 
-        //Update Item
-        $updateItem = $this->repository->update($item, $data);
-
-        //If item not updated, return 400 status else return 200
-        if( !$updateItem ){
-            $this->response = $this->makeResponse(400, 'mark.400');
+        //If item not deleted, return 400 status else return 200
+        if( !$deleteItem ){
+            $this->response = $this->makeResponse(400, 'delete.400');
         }
         else{
-            $this->response = $this->makeResponse(200, 'mark.200');
+            $this->response = $this->makeResponse(200, 'delete.200');
         }
 
         return $this;

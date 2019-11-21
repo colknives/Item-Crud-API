@@ -22,4 +22,7 @@ $router->group(["prefix" => "item"], function() use ($router){
 	
 	//Mark item as complete route
 	$router->put('mark/complete/{id}', ["as" => "item.mark.complete", "uses" => "ItemController@markComplete"]);
+
+	//Delete item route
+	$router->delete('delete/{id}', ["as" => "item.delete", "uses" => "ItemController@delete"]);
 });

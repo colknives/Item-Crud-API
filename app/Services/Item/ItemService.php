@@ -39,7 +39,7 @@ class ItemService extends AbstractBaseService implements ItemInterface {
     }
 
     /**
-     * Create Item Service Method
+     * Create item service method
      *
      * @return response
      */
@@ -49,12 +49,22 @@ class ItemService extends AbstractBaseService implements ItemInterface {
     }
 
     /**
-     * Mark Item as Complete Service Method
+     * Mark item as complete service method
      *
      * @return response
      */
     public function markComplete($uuid) 
     {
         return (new MarkComplete($uuid, $this->itemRepository))->handle()->response();
+    } 
+
+    /**
+     * Delete item service method
+     *
+     * @return response
+     */
+    public function deleteItem($uuid) 
+    {
+        return (new DeleteItem($uuid, $this->itemRepository))->handle()->response();
     }  
 }

@@ -6,7 +6,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class ItemTest extends TestCase
 {
     /**
-     * Create Item
+     * Create item unit test
      *
      * @return void
      */
@@ -19,8 +19,7 @@ class ItemTest extends TestCase
         $response = $this->post("item/create", []);
         $response->assertResponseStatus(422);
         $response->seeJsonStructure([
-            'name',
-            'description'
+            'name'
         ]);
 
         //Check 200 response
@@ -36,28 +35,43 @@ class ItemTest extends TestCase
     }
 
     /**
-     * Update Item
+     * Mark item as complete unit test
      *
      * @return void
      */
-    public function testMarkItem()
+    public function testMarkItemComplete()
     {
         //Create sample item to save
         $item = factory(\App\Models\Item::class)->create();
 
-        // //Check 404 response
-        // $response = $this->put("item/mark/complete/1");
-        // $response->assertResponseStatus(422);
-        // $response->seeJsonStructure([
-        //     'name',
-        //     'description'
-        // ]);
+        //Check 404 response
+        $response = $this->put("item/mark/complete/1");
+        $response->assertResponseStatus(404);
 
         //Check 200 response
         $response = $this->put("item/mark/complete/{$item->uuid}");
+        $response->assertResponseStatus(200);
+        $response->seeJsonStructure([
+            'message'
+        ]);
+    }
 
-        dd($response->response->getContent());
+    /**
+     * Delete item unit test
+     *
+     * @return void
+     */
+    public function testDeleteItem()
+    {
+        //Create sample item to save
+        $item = factory(\App\Models\Item::class)->create();
 
+        //Check 404 response
+        $response = $this->delete("item/delete/1");
+        $response->assertResponseStatus(404);
+
+        //Check 200 response
+        $response = $this->delete("item/delete/{$item->uuid}");
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
             'message'

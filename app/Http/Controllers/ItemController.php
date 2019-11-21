@@ -36,8 +36,7 @@ class ItemController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:50',
-            'description' => 'required'
+            'name' => 'required|max:50'
         ]);
 
         $save = $this->itemService->createItem();
@@ -57,11 +56,22 @@ class ItemController extends Controller
     {
         $mark = $this->itemService->markComplete($uuid);
 
-        dd($mark);
+        return response()->json([
+            "message" => $mark->message
+        ], $mark->status); 
+    }
+
+    /**
+     * Delete item method.
+     *
+     * @return void
+     */
+    public function delete($uuid)
+    {
+        $delete = $this->itemService->deleteItem($uuid);
 
         return response()->json([
-            "message" => $save->message,
-            "item" => $save->item
-        ], $save->status); 
+            "message" => $delete->message
+        ], $delete->status); 
     }
 }
