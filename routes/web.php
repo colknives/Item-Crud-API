@@ -16,5 +16,10 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(["prefix" => "item"], function() use ($router){
+
+	//Create item route
 	$router->post('create', ["as" => "item.create", "uses" => "ItemController@create"]);
+	
+	//Mark item as complete route
+	$router->put('mark/complete/{id}', ["as" => "item.mark.complete", "uses" => "ItemController@markComplete"]);
 });

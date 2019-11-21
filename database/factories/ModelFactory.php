@@ -16,6 +16,6 @@ $factory->define(App\Models\Item::class, function (Faker\Generator $faker) {
     	'uuid' => $faker->uuid,
         'name' => $faker->name,
         'description' => $faker->text,
-        'is_completed' => rand(1, 0)
+        'is_completed' => 0
     ];
 });

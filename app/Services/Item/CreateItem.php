@@ -6,25 +6,33 @@ use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 use App\Services\Item\AbstractItem;
-use App\Repositories\ItemRepository;
+use App\Repositories\ItemRepository as Repository;
 
 class CreateItem extends AbstractItem
 {
-    protected $addItem;
-
     protected $request;
 
     protected $repository;
 
+    /**
+     * Create item construct method
+     *
+     * @param Request $request
+     * @param Repository $repository
+     *
+     * @return AbstractItem
+     */
     public function __construct(
         Request $request,
-        ItemRepository $repository)
+        Repository $repository)
     {
         $this->request = $request;
         $this->repository = $repository;
     }
 
     /**
+     * Create item handle method
+     *
      * @return AbstractItem
      */
     public function handle(): AbstractItem
@@ -40,11 +48,11 @@ class CreateItem extends AbstractItem
         $saveItem = $this->repository->create($data);
 
         if( !$saveItem ){
-            $this->response = $this->makeResponse(400, 'save.400');
+            $this->response = $this->makeResponse(400, 'create.400');
             $this->response->item = null;
         }
         else{
-            $this->response = $this->makeResponse(200, 'save.200');
+            $this->response = $this->makeResponse(200, 'create.200');
             $this->response->item = $saveItem;
         }
 

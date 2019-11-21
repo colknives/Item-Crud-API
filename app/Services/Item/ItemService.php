@@ -46,5 +46,15 @@ class ItemService extends AbstractBaseService implements ItemInterface {
     public function createItem() 
     {
         return (new CreateItem($this->request, $this->itemRepository))->handle()->response();
-    }    
+    }
+
+    /**
+     * Mark Item as Complete Service Method
+     *
+     * @return response
+     */
+    public function markComplete($uuid) 
+    {
+        return (new MarkComplete($uuid, $this->itemRepository))->handle()->response();
+    }  
 }

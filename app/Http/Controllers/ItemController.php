@@ -29,7 +29,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Create item.
+     * Create item method.
      *
      * @return void
      */
@@ -41,6 +41,23 @@ class ItemController extends Controller
         ]);
 
         $save = $this->itemService->createItem();
+
+        return response()->json([
+            "message" => $save->message,
+            "item" => $save->item
+        ], $save->status); 
+    }
+
+    /**
+     * Mark item as complete method.
+     *
+     * @return void
+     */
+    public function markComplete($uuid)
+    {
+        $mark = $this->itemService->markComplete($uuid);
+
+        dd($mark);
 
         return response()->json([
             "message" => $save->message,

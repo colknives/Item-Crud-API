@@ -16,6 +16,7 @@ class Item extends AbstractBaseModel {
         "uuid",
         "name",
         "description",
+        "is_completed",
         "deleted_at"
     ];
 
