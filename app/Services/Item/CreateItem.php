@@ -7,27 +7,42 @@ use Ramsey\Uuid\Uuid;
 
 use App\Services\Item\AbstractItem;
 use App\Repositories\ItemRepository as Repository;
+use App\Repositories\ItemHistoryRepository;
 
 class CreateItem extends AbstractItem
 {
+    /**
+     * Request Instance
+     */
     protected $request;
 
+    /**
+     * Item Repository Instance
+     */
     protected $repository;
+
+    /**
+     * Item History Repository Instance
+     */
+    protected $itemHistoryRepository;
 
     /**
      * Create item construct method
      *
      * @param Request $request
      * @param Repository $repository
+     * @param ItemHistoryRepository $itemHistoryRepository
      *
      * @return AbstractItem
      */
     public function __construct(
         Request $request,
-        Repository $repository)
+        Repository $repository,
+        ItemHistoryRepository $itemHistoryRepository)
     {
         $this->request = $request;
         $this->repository = $repository;
+        $this->itemHistoryRepository = $itemHistoryRepository;
     }
 
     /**
@@ -52,6 +67,9 @@ class CreateItem extends AbstractItem
             $this->response->item = null;
         }
         else{
+            //Log interaction in database
+            $log = $this->itemHistoryRepository->logHistory('CREATE_ITEM', $saveItem->uuid);
+
             $this->response = $this->makeResponse(200, 'create.200');
             $this->response->item = $saveItem;
         }

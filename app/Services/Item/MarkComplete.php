@@ -7,25 +7,42 @@ use Ramsey\Uuid\Uuid;
 
 use App\Services\Item\AbstractItem;
 use App\Repositories\ItemRepository as Repository;
+use App\Repositories\ItemHistoryRepository;
 
 class MarkComplete extends AbstractItem
 {
+    /**
+     * Uuid Instance
+     */
     protected $uuid;
 
+    /**
+     * Item Repository Instance
+     */
     protected $repository;
+
+    /**
+     * Item History Repository Instance
+     */
+    protected $itemHistoryRepository;
 
     /**
      * Mark item as complete construct method
      *
      * @param $uuid
      * @param Repository $repository
+     * @param ItemHistoryRepository $itemHistoryRepository
      *
      * @return AbstractItem
      */
-    public function __construct($uuid, Repository $repository)
+    public function __construct(
+        $uuid, 
+        Repository $repository,
+        ItemHistoryRepository $itemHistoryRepository)
     {
         $this->uuid = $uuid;
         $this->repository = $repository;
+        $this->itemHistoryRepository = $itemHistoryRepository;
     }
 
     /**
@@ -54,6 +71,9 @@ class MarkComplete extends AbstractItem
             $this->response = $this->makeResponse(400, 'mark.400');
         }
         else{
+            //Log interaction in database
+            $log = $this->itemHistoryRepository->logHistory('MARK_COMPLETE_ITEM', $this->uuid);
+
             $this->response = $this->makeResponse(200, 'mark.200');
         }
 

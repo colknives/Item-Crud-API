@@ -7,25 +7,42 @@ use Ramsey\Uuid\Uuid;
 
 use App\Services\Item\AbstractItem;
 use App\Repositories\ItemRepository as Repository;
+use App\Repositories\ItemHistoryRepository;
 
 class DeleteItem extends AbstractItem
 {
+    /**
+     * Uuid Instance
+     */
     protected $uuid;
 
+    /**
+     * Item Repository Instance
+     */
     protected $repository;
+
+    /**
+     * Item History Repository Instance
+     */
+    protected $itemHistoryRepository;
 
     /**
      * Delete item construct method
      *
      * @param $uuid
      * @param Repository $repository
+     * @param ItemHistoryRepository $itemHistoryRepository
      *
      * @return AbstractItem
      */
-    public function __construct($uuid, Repository $repository)
+    public function __construct(
+        $uuid, 
+        Repository $repository,
+        ItemHistoryRepository $itemHistoryRepository)
     {
         $this->uuid = $uuid;
         $this->repository = $repository;
+        $this->itemHistoryRepository = $itemHistoryRepository;
     }
 
     /**
@@ -52,6 +69,9 @@ class DeleteItem extends AbstractItem
             $this->response = $this->makeResponse(400, 'delete.400');
         }
         else{
+            //Log interaction in database
+            $log = $this->itemHistoryRepository->logHistory('DELETE_ITEM', $this->uuid);
+
             $this->response = $this->makeResponse(200, 'delete.200');
         }
 

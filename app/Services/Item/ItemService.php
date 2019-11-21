@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 use App\Repositories\ItemRepository;
+use App\Repositories\ItemHistoryRepository;
 use App\Services\AbstractBaseService;
 
 class ItemService extends AbstractBaseService implements ItemInterface {
@@ -21,6 +22,11 @@ class ItemService extends AbstractBaseService implements ItemInterface {
     protected $itemRepository;
     
     /**
+     * Item History Repository Instance
+     */
+    protected $itemHistoryRepository;
+
+    /**
      * ItemService constructor.
      *
      * @param Request $request
@@ -30,10 +36,12 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      */
     public function __construct(
         Request $request,
-        ItemRepository $itemRepository) {
+        ItemRepository $itemRepository,
+        ItemHistoryRepository $itemHistoryRepository) {
 
         $this->request = $request;
         $this->itemRepository = $itemRepository;
+        $this->itemHistoryRepository = $itemHistoryRepository;
 
         parent::__construct($request);
     }
@@ -45,7 +53,7 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      */
     public function createItem() 
     {
-        return (new CreateItem($this->request, $this->itemRepository))->handle()->response();
+        return (new CreateItem($this->request, $this->itemRepository, $this->itemHistoryRepository))->handle()->response();
     }
 
     /**
@@ -55,7 +63,7 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      */
     public function markComplete($uuid) 
     {
-        return (new MarkComplete($uuid, $this->itemRepository))->handle()->response();
+        return (new MarkComplete($uuid, $this->itemRepository, $this->itemHistoryRepository))->handle()->response();
     } 
 
     /**
@@ -65,7 +73,7 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      */
     public function deleteItem($uuid) 
     {
-        return (new DeleteItem($uuid, $this->itemRepository))->handle()->response();
+        return (new DeleteItem($uuid, $this->itemRepository, $this->itemHistoryRepository))->handle()->response();
     }  
 
     /**
