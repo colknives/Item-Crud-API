@@ -6,7 +6,7 @@ interface ItemInterface {
 
 	public function createItem();
 
-	public function markComplete($uuid);
+	public function markItem($uuid);
 
 	public function deleteItem($uuid);
 

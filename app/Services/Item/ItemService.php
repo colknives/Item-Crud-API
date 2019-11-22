@@ -61,9 +61,9 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      *
      * @return response
      */
-    public function markComplete($uuid) 
+    public function markItem($uuid) 
     {
-        return (new MarkComplete($uuid, $this->itemRepository, $this->itemHistoryRepository))->handle()->response();
+        return (new MarkItem($uuid, $this->request, $this->itemRepository, $this->itemHistoryRepository))->handle()->response();
     } 
 
     /**

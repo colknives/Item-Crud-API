@@ -6,8 +6,8 @@ return [
             "400" => "Failed to create item."
         ],
         "mark" => [
-            "200" => "Item successfully marked as complete.",
-            "400" => "Failed to mark item as complete.",
+            "200" => "Item successfully updated.",
+            "400" => "Failed to mark item.",
             "404" => "Item not found."
         ],
         "delete" => [

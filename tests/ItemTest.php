@@ -39,17 +39,19 @@ class ItemTest extends TestCase
      *
      * @return void
      */
-    public function testMarkItemComplete()
+    public function testMarkItem()
     {
         //Create sample item to mark as complete
         $item = factory(\App\Models\Item::class)->create();
 
         //Check 404 response
-        $response = $this->put("item/mark/complete/1");
+        $response = $this->put("item/mark/1");
         $response->assertResponseStatus(404);
 
         //Check 200 response
-        $response = $this->put("item/mark/complete/{$item->uuid}");
+        $response = $this->put("item/mark/{$item->uuid}", [
+            'mark' => 'open'
+        ]);
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
             'message'

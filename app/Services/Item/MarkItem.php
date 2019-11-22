@@ -9,12 +9,17 @@ use App\Services\Item\AbstractItem;
 use App\Repositories\ItemRepository as Repository;
 use App\Repositories\ItemHistoryRepository;
 
-class MarkComplete extends AbstractItem
+class MarkItem extends AbstractItem
 {
     /**
      * Uuid Instance
      */
     protected $uuid;
+
+    /**
+     * Request Instance
+     */
+    protected $request;
 
     /**
      * Item Repository Instance
@@ -27,9 +32,10 @@ class MarkComplete extends AbstractItem
     protected $itemHistoryRepository;
 
     /**
-     * Mark item as complete construct method
+     * Mark item construct method
      *
      * @param $uuid
+     * @param Request $request
      * @param Repository $repository
      * @param ItemHistoryRepository $itemHistoryRepository
      *
@@ -37,10 +43,12 @@ class MarkComplete extends AbstractItem
      */
     public function __construct(
         $uuid, 
+        Request $request,
         Repository $repository,
         ItemHistoryRepository $itemHistoryRepository)
     {
         $this->uuid = $uuid;
+        $this->request = $request;
         $this->repository = $repository;
         $this->itemHistoryRepository = $itemHistoryRepository;
     }
@@ -61,7 +69,9 @@ class MarkComplete extends AbstractItem
             return $this;
         }
 
-        $data = ['is_completed' => true];
+        $data = [
+            'is_completed' => ( $this->request->post('mark') == 'complete' )? true : false
+        ];
 
         //Update Item
         $updateItem = $this->repository->update($item, $data);
@@ -71,8 +81,11 @@ class MarkComplete extends AbstractItem
             $this->response = $this->makeResponse(400, 'mark.400');
         }
         else{
+
+            $logMessage = ( $this->request->post('mark') == 'complete' )? 'MARK_ITEM_COMPLETE' : 'MARK_ITEM_OPEN';
+
             //Log interaction in database
-            $log = $this->itemHistoryRepository->logHistory('MARK_COMPLETE_ITEM', $this->uuid);
+            $log = $this->itemHistoryRepository->logHistory($logMessage, $this->uuid);
 
             $this->response = $this->makeResponse(200, 'mark.200');
         }

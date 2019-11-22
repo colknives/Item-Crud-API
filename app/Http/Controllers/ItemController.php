@@ -48,13 +48,17 @@ class ItemController extends Controller
     }
 
     /**
-     * Mark item as complete method.
+     * Mark item method.
      *
      * @return void
      */
-    public function markComplete($uuid)
+    public function mark(Request $request, $uuid)
     {
-        $mark = $this->itemService->markComplete($uuid);
+        $this->validate($request, [
+            'mark' => 'required'
+        ]);
+
+        $mark = $this->itemService->markItem($uuid);
 
         return response()->json([
             "message" => $mark->message

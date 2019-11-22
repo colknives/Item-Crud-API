@@ -20,8 +20,8 @@ $router->group(["prefix" => "item"], function() use ($router){
 	//Create item route
 	$router->post('create', ["as" => "item.create", "uses" => "ItemController@create"]);
 	
-	//Mark item as complete route
-	$router->put('mark/complete/{id}', ["as" => "item.mark.complete", "uses" => "ItemController@markComplete"]);
+	//Mark item route
+	$router->put('mark/{id}', ["as" => "item.mark", "uses" => "ItemController@mark"]);
 
 	//Delete item route
 	$router->delete('delete/{id}', ["as" => "item.delete", "uses" => "ItemController@delete"]);
