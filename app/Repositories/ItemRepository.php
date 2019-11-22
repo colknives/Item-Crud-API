@@ -13,4 +13,24 @@ class ItemRepository extends AbstractBaseRepository {
     {
         parent::__construct($model);
     }
+
+    public function findByStatus($status = false) {
+
+    	$query = $this->model;
+
+    	//Check if status is provided
+    	if( $status ){
+    		switch (strtoupper($status)) {
+    			case 'COMPLETED':
+    				$query = $query->where('is_completed', true);
+    				break;
+
+    			case 'OPEN':
+    				$query = $query->where('is_completed', false);
+    				break;
+    		}
+    	}
+
+    	return $query->get();
+    }
 }

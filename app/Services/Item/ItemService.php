@@ -93,6 +93,6 @@ class ItemService extends AbstractBaseService implements ItemInterface {
      */
     public function listItem() 
     {
-        return (new ListItem($this->itemRepository))->handle()->response();
+        return (new ListItem($this->request, $this->itemRepository))->handle()->response();
     }  
 }

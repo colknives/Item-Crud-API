@@ -109,10 +109,37 @@ class ItemTest extends TestCase
     public function testListItem()
     {
         //Create sample item to list
-        $item = factory(\App\Models\Item::class, 10)->create();
+        $item = factory(\App\Models\Item::class, 5)->create([
+            'is_completed' => false
+        ]);
 
-        //Check 200 response
-        $response = $this->get("item/list");
+        //Check 200 response with open status
+        $response = $this->post("item/list", [
+            'status' => 'open'
+        ]);
+        $response->assertResponseStatus(200);
+        $response->seeJsonStructure([
+            'message',
+            'items'
+        ]);
+
+        //Create sample item to list
+        $item = factory(\App\Models\Item::class, 5)->create([
+            'is_completed' => true
+        ]);
+
+        //Check 200 response with completed status
+        $response = $this->post("item/list", [
+            'status' => 'completed'
+        ]);
+        $response->assertResponseStatus(200);
+        $response->seeJsonStructure([
+            'message',
+            'items'
+        ]);
+
+        //Check 200 response with all items
+        $response = $this->post("item/list");
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
             'message',

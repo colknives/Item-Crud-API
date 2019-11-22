@@ -30,5 +30,5 @@ $router->group(["prefix" => "item"], function() use ($router){
 	$router->get('view/{id}', ["as" => "item.view", "uses" => "ItemController@view"]);
 
 	//List item route
-	$router->get('list', ["as" => "item.list", "uses" => "ItemController@list"]);
+	$router->post('list', ["as" => "item.list", "uses" => "ItemController@list"]);
 });

@@ -10,7 +10,7 @@ use App\Repositories\ItemRepository as Repository;
 
 class ListItem extends AbstractItem
 {
-    protected $uuid;
+    protected $request;
 
     protected $repository;
 
@@ -21,8 +21,11 @@ class ListItem extends AbstractItem
      *
      * @return AbstractItem
      */
-    public function __construct(Repository $repository)
+    public function __construct(
+        Request $request,
+        Repository $repository)
     {
+        $this->request = $request;
         $this->repository = $repository;
     }
 
@@ -33,8 +36,8 @@ class ListItem extends AbstractItem
      */
     public function handle(): AbstractItem
     {
-        //Get all items
-        $item = $this->repository->all();
+        //Get items base on status
+        $item = $this->repository->findByStatus($this->request->post('status'));
 
         //If no item found, return 404 status
         if( !$item ){
