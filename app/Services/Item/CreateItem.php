@@ -55,8 +55,7 @@ class CreateItem extends AbstractItem
 
         $data = [
             'uuid' => Uuid::uuid4()->toString(),
-            'name' => $this->request->post('name'),
-            'description' => $this->request->post('description')
+            'name' => $this->request->post('name')
         ];
 
         //Save Item

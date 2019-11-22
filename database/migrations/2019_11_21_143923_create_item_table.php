@@ -17,7 +17,6 @@ class CreateItemTable extends Migration
             $table->bigIncrements('id');
             $table->string('uuid', 50);
             $table->string('name', 50);
-            $table->text('description')->nullable();
             $table->boolean('is_completed')->default(0);
             $table->softDeletes();
             $table->timestamps();

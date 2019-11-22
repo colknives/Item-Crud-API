@@ -24,8 +24,7 @@ class ItemTest extends TestCase
 
         //Check 200 response
         $response = $this->post("item/create", [
-            'name' => $item->name,
-            'description' => $item->description
+            'name' => $item->name
         ]);
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
@@ -44,8 +43,14 @@ class ItemTest extends TestCase
         //Create sample item to mark as complete
         $item = factory(\App\Models\Item::class)->create();
 
-        //Check 404 response
+        //Check 422 response
         $response = $this->put("item/mark/1");
+        $response->assertResponseStatus(422);
+
+        //Check 404 response
+        $response = $this->put("item/mark/1", [
+            'mark' => 'open'
+        ]);
         $response->assertResponseStatus(404);
 
         //Check 200 response
@@ -81,29 +86,6 @@ class ItemTest extends TestCase
     }
 
     /**
-     * View item unit test
-     *
-     * @return void
-     */
-    public function testViewItem()
-    {
-        //Create sample item to view
-        $item = factory(\App\Models\Item::class)->create();
-
-        //Check 404 response
-        $response = $this->get("item/view/1");
-        $response->assertResponseStatus(404);
-
-        //Check 200 response
-        $response = $this->get("item/view/{$item->uuid}");
-        $response->assertResponseStatus(200);
-        $response->seeJsonStructure([
-            'message',
-            'item'
-        ]);
-    }
-
-    /**
      * List item unit test
      *
      * @return void
@@ -125,7 +107,7 @@ class ItemTest extends TestCase
             'items'
         ]);
 
-        //Create sample item to list
+        // Create sample item to list
         $item = factory(\App\Models\Item::class, 5)->create([
             'is_completed' => true
         ]);
@@ -134,6 +116,7 @@ class ItemTest extends TestCase
         $response = $this->post("item/list", [
             'status' => 'completed'
         ]);
+
         $response->assertResponseStatus(200);
         $response->seeJsonStructure([
             'message',

@@ -15,7 +15,6 @@ class Item extends AbstractBaseModel {
     protected $fillable = [
         "uuid",
         "name",
-        "description",
         "is_completed",
         "deleted_at"
     ];

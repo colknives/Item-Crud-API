@@ -80,32 +80,18 @@ class ItemController extends Controller
     }
 
     /**
-     * View item method.
-     *
-     * @return void
-     */
-    public function view($uuid)
-    {
-        $view = $this->itemService->viewItem($uuid);
-
-        return response()->json([
-            "message" => $view->message,
-            "item" => $view->item
-        ], $view->status); 
-    }
-
-    /**
      * List items method.
      *
      * @return void
      */
-    public function list()
+    public function list(Request $request)
     {
         $list = $this->itemService->listItem();
 
         return response()->json([
             "message" => $list->message,
-            "items" => $list->items
+            "items" => $list->items,
+            "status" => $request->post('status')
         ], $list->status); 
     }
 }

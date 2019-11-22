@@ -10,8 +10,14 @@ use App\Repositories\ItemRepository as Repository;
 
 class ListItem extends AbstractItem
 {
+    /**
+     * Request Instance
+     */
     protected $request;
 
+    /**
+     * Item Repository Instance
+     */
     protected $repository;
 
     /**

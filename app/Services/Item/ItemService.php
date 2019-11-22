@@ -77,16 +77,6 @@ class ItemService extends AbstractBaseService implements ItemInterface {
     }  
 
     /**
-     * View item service method
-     *
-     * @return response
-     */
-    public function viewItem($uuid) 
-    {
-        return (new ViewItem($uuid, $this->itemRepository))->handle()->response();
-    }  
-
-    /**
      * List item service method
      *
      * @return response

@@ -10,8 +10,6 @@ interface ItemInterface {
 
 	public function deleteItem($uuid);
 
-	public function viewItem($uuid);
-
 	public function listItem() ;
 	
 }
